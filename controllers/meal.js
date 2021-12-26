@@ -4,6 +4,9 @@ const Meal = require('../models/meal')
 
 //Home route
 router.get('/', (req, res, next) => {
+    // Meal.find({name:"Orange"}, (err, orange)=>{
+    //     console.log(orange)
+    // })
     res.render('home')
 })
 //About route
@@ -15,12 +18,26 @@ router.get('/new', (req, res, next) => {
     res.render('new')
 })
 
+router.get('/myMeals', (req, res)=> {
+    Meal.find({}, (err, meals) => {
+        res.render('myMeals',{meals})
+    })
+})
+
 
 //Show route for each meal
+// router.get('/:id', (req,res,next) => {
+//     Meal.findById(req.params.id)
+//     .then(meal => res.json(meal))
+//     .catch(next)
+// })
+
+
+//When meal is clicked, display meal clicked with all its info
 router.get('/:id', (req,res,next) => {
-    Meal.findById(req.params.id)
-    .then(meal => res.json(meal))
-    .catch(next)
+    Meal.findById((req.params.id), (err, meal) => {
+        res.render('specificMeal', {meal})
+    })
 })
 //Show route for edit page on meal id.
 router.get('/:id/edit', (req,res,next) => {
