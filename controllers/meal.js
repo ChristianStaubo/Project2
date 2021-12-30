@@ -32,11 +32,24 @@ router.get('/filtered', (req,res) => {
 })
 
 router.post('/allMeals', (req,res,next) => {
-    Meal.findOne({name:req.body.name}, (err, meals) => {
+    // if (req.body.calories && == '' {
+
+    // })
+
+    //Loop through req.body and if req.body[key] isn't empty, add that to query.
+    //Then pass query to Meal.find()
+    let query = {}
+    for (let key in req.body) {
+        if (req.body[key] != ''){
+            query[key] = req.body[key]
+        }
+    }
+    Meal.find(query, (err, meals) => {
+        console.log(req.body)
+        console.log(query)
+       
         res.render('filteredMeals', {meals})
     })
-    // .then(meal => res.json(meal))
-    // .catch(next)
 })
 
 
