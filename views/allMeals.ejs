@@ -1,0 +1,44 @@
+<div class ="container-fluid">
+    <div class ="row">
+
+<% meals.forEach( (meal, index) =>{ %>
+          <div class ="col-md-4 col-sm-4">
+        <a class="link-secondary" href="/meals/<%= meal.id %>">
+            <h1>
+                    <%= meal.name %>
+            </h1>
+            <p>By <%= meal.owner %> </p>
+        </a>
+            <!-- <form action='/meals/<%= meal.id %>?_method=DELETE' method="POST">
+                <input type="submit" value="DELETE" />
+            </form>
+            <a href="/meals/<%= meal.id %>/edit">Edit Me</a> -->
+          </div>
+   
+    <%  }) %>
+
+</div>
+</div>
+
+<!-- <div class="container pt-4">
+    <div class="row">
+       <div class="col-lg">
+           <h3 class="mb-4">Add a new meal</h3>
+           <a href="/meals/new"><img src="./photos/healthyMeal.jpg" alt="healthy meal" class="img-fluid mb-4 rounded">
+           </a>
+           <p>Create a meal to add to your list</p>
+   
+       </div>
+       <div class="col-lg">
+           <h3 class="mb-4">Generate random meal</h3>
+           <img src="./photos/healthyMeal.jpg" alt="healthy meal" class="img-fluid mb-4 rounded">
+           <p>Want something other than chicken breast and broccoli? Generate a random meal!</p>
+           
+       </div>
+       <div class="col-lg">
+           <h3 class="mb-4">My meals</h3>
+           <img src="photos/healthyMeal.jpg" alt="healthy meal" class="img-fluid mb-4 rounded">
+           <p>View your saved meals</p>
+           
+       </div>
+   </div> -->
