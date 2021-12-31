@@ -32,12 +32,8 @@ router.get('/filtered', (req,res) => {
 })
 
 router.post('/allMeals', (req,res,next) => {
-    // if (req.body.calories && == '' {
-
-    // })
-
-    //Loop through req.body and if req.body[key] isn't empty, add that to query.
-    //Then pass query to Meal.find()
+   //Loop through req.body and if req.body[key] isn't empty, add that to query.
+    //Then pass query to Meal.find
     let query = {}
     for (let key in req.body) {
         if (req.body[key] != ''){
@@ -45,6 +41,7 @@ router.post('/allMeals', (req,res,next) => {
         }
     }
     Meal.find(query, (err, meals) => {
+        console.log('First one')
         console.log(req.body)
         console.log(query)
        
@@ -52,13 +49,37 @@ router.post('/allMeals', (req,res,next) => {
     })
 })
 
+//CONCEPT FOR GREATER THAN QUERY OF CALORIES AND PROTEIN
 
-//Show route for each meal
-// router.get('/:id', (req,res,next) => {
-//     Meal.findById(req.params.id)
-//     .then(meal => res.json(meal))
-//     .catch(next)
-// })
+
+// router.post('/allMeals', (req,res,next) => {
+//     //Loop through req.body and if req.body[key] isn't empty, add that to query.
+//      //Then pass query to Meal.find
+//      let query = {}
+//      for (let key in req.body) {
+//          if (req.body[key] != ''){
+//              query[key] = req.body[key]
+//          }
+//      }
+//      if (query['calories'] == ''){
+//      Meal.find(query, (err, meals) => {
+//          console.log('First one')
+//          console.log(req.body)
+//          console.log(query)
+        
+//          res.render('filteredMeals', {meals})
+//      })
+//  }
+//  else if (query['calories'] != ''){
+//      Meal.find(query, { $gt:query.calories}, (err, meals) => {
+//          console.log('Second one')
+//          console.log(req.body)
+//          console.log(query)
+        
+//          res.render('filteredMeals', {meals})
+//      })
+//  }
+//  })
 
 
 //When meal is clicked, display meal clicked with all its info
