@@ -119,7 +119,7 @@ router.get('/:id/edit', (req,res) => {
 //Create a meal and red direct to home (will change this to redirect to my meals if logged in)
 router.post('/', (req,res,next) => {
     Meal.create(req.body)
-    // .then(meal => res.json(meal))
+    console.log(req.body)
     res.redirect('/meals')
     // .catch(next)
 })

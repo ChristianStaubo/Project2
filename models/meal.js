@@ -7,7 +7,7 @@ const MealSchema = new mongoose.Schema({
     type:String,
     type:{type:String, default:"N/A"},
     calories:{type:Number, required:true},
-    protein:String,
+    protein:Number,
     ingredients:[String],
     optional:[String],
     owner:{type:String, default:Session.userToMealModel}
