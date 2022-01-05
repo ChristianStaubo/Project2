@@ -34,15 +34,21 @@
                   Log in
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li><a class="dropdown-item" href="#">Log in</a></li>
-                  <li><a class="dropdown-item" href="#">Sign up</a></li>
-                  <li><a class="dropdown-item" href="#">Register</a></li>
+                <% if (!loggedIn){ %> 
+                  <li><a class="dropdown-item" href="/session/login">Log in</a></li>
+                  <li><a class="dropdown-item" href="/session/register">Sign up</a></li>
+                  <% } else { %> 
+                  <li><a class="dropdown-item" href="/session/logout">Log out</a></li>
+                  <% } %> 
                 </ul>
               </li>
             </ul>
           </div>
         </div>
       </nav>
+      <% if (message) { %>
+        <p><%= message  %> </p>
+        <% } %>  
       <%- body %>
 <!-- Navbar section -->
 </body>

@@ -1,4 +1,6 @@
 const mongoose = require('../db/connection')
+const User = require('../models/user')
+const Session = require('../controllers/session')
 
 const MealSchema = new mongoose.Schema({
     name:{type:String, required:true},
@@ -8,7 +10,7 @@ const MealSchema = new mongoose.Schema({
     protein:String,
     ingredients:[String],
     optional:[String],
-    owner:{type:String, default:'Userx'}
+    owner:{type:String, default:Session.userToMealModel}
 
 })
 

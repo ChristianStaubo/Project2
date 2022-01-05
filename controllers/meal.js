@@ -1,27 +1,48 @@
 const express = require('express')
 const router = express.Router()
 const Meal = require('../models/meal')
+
+const authRequired = (req,res,next) => {
+    if (req.session.loggedIn) {
+        next()
+    }
+    else {
+        res.redirect('/session/login')
+    }
+}
 //Home route
 router.get('/', (req, res, next) => {
     // Meal.find({name:"Orange"}, (err, orange)=>{
     //     console.log(orange)
     // })
-    res.render('home')
+    console.log(res.locals.username)
+    res.render('home', {
+        username: req.session.username
+    })
 })
 //About route
 router.get('/about', (req, res, next) => {
     res.render('about')
 })
 //Create new meal route
-router.get('/new', (req, res, next) => {
+router.get('/new', authRequired, (req, res, next) => {
     res.render('new')
 })
-
+//Display all meals route
 router.get('/allMeals', (req, res)=> {
     Meal.find({}, (err, meals) => {
         res.render('allMeals',{meals})
     })
 })
+
+router.get('/myMeals', (req, res)=> {
+    Meal.find({owner: res.locals.username }, (err, meals) => {
+        console.log(meals)
+        res.render('myMeals',{meals})
+    })
+})
+
+
 //Get route for the search page
 router.get('/search', (req,res) => {
     res.render('search')

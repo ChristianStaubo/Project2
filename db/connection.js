@@ -2,10 +2,10 @@
 const mongoose = require('mongoose')
 
 
-const mongoURI = 'mongodb://localhost:27017/meals'
+const MONGODB_URI = process.env.MONGODB_URI
 
 mongoose
-  .connect(mongoURI, {
+  .connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

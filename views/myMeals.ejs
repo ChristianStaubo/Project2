@@ -1,0 +1,24 @@
+<h1>My meals:</h1>
+<div class ="container-fluid">
+    <div class ="row">
+<% if (meals.length > 0){ %> 
+<% meals.forEach( (meal, index) =>{ %>
+          <div class ="col-md-4 col-sm-4">
+            <h1>
+                <a href="/meals/<%= meal.id %>">
+                    <%= meal.name %>
+                </a>
+            </h1>
+            <form action='/meals/<%= meal.id %>?_method=DELETE' method="POST">
+                <input type="submit" value="DELETE" />
+            </form>
+            <a href="/meals/<%= meal.id %>/edit">Edit Me</a>
+          </div>
+   
+    <%  }) %>
+    <% } else { %>
+        <h1>You haven't created any meals yet</h1>
+        <% } %>  
+
+</div>
+</div>
