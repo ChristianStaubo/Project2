@@ -2,7 +2,7 @@ const express = require('express')
 const User = require('../models/user')
 const router = express.Router()
 const bcrypt = require('bcrypt')
-let userToMealModel = ''
+let userToMealModel = 'Charles'
 router.get('/', (req,res) => {
     res.send('Session controller works')
 })

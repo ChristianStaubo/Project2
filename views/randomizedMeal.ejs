@@ -1,4 +1,4 @@
-<a href="/meals/allMeals" type="button" class="btn btn-outline-secondary mt-3 ml-5">Back</a>
+<a href="/meals/search" type="button" class="btn btn-outline-secondary mt-3 ml-5">Back</a>
 
 <div class ="container-fluid text-center">
     <div class ="text-center">
@@ -28,25 +28,5 @@
             </div>
 
 </div>
-
+<a href="/meals/randomizedMeal" type="button" class="btn btn-outline-secondary mt-3 ml-5 text-center">Not Satisfied? Click to generate another random meal!</a>
 </div>
-
-
-<div class="d-inline flex-column justify-content-between text-center mt-5">
-        <form action='/meals/<%= meal.id %>?_method=DELETE' method="POST">
-            <input type="submit" value="DELETE" />
-        </form>
-        <a href="/meals/<%= meal.id %>/edit">Edit Me</a>
-</div>
-
-<!-- <a href="/meals/<%= meal.id %>/like ">Like this meal</a> -->
-<form action="/meals/<%= meal.id %>/like" method='POST'>
-   
-
-    <input type="submit" value='Like this meal'>
-
-</form>
-
-
-
-<!-- <p>Not Satisfied? Click to generate a random meal!</p> -->

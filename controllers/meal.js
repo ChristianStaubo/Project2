@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
     // Meal.find({name:"Orange"}, (err, orange)=>{
     //     console.log(orange)
     // })
-    console.log(res.locals.username)
+    // console.log(res.locals.username)
     res.render('home', {
         username: req.session.username
     })
@@ -37,7 +37,6 @@ router.get('/allMeals', (req, res)=> {
 
 router.get('/myMeals', (req, res)=> {
     Meal.find({owner: res.locals.username }, (err, meals) => {
-        console.log(meals)
         res.render('myMeals',{meals})
     })
 })
@@ -45,7 +44,17 @@ router.get('/myMeals', (req, res)=> {
 
 //Get route for the search page
 router.get('/search', (req,res) => {
-    res.render('search')
+    Meal.find({} , (err, meals) => {
+        res.render('search', {meals})
+    })
+})
+
+router.get('/randomizedMeal', (req,res) => {
+    Meal.find({}, (err,meals) => {
+        let randomMealIndex = Math.floor(Math.random() * meals.length)
+        let meal = meals[randomMealIndex]
+        res.render('randomizedMeal', {meal})
+    })
 })
 //Get route for the filtered meals page
 router.get('/filtered', (req,res) => {
@@ -62,9 +71,9 @@ router.post('/allMeals', (req,res,next) => {
         }
     }
     Meal.find(query, (err, meals) => {
-        console.log('First one')
-        console.log(req.body)
-        console.log(query)
+        // console.log('First one')
+        // console.log(req.body)
+        // console.log(query)
        
         res.render('filteredMeals', {meals})
     })
@@ -110,6 +119,17 @@ router.get('/:id', (req,res,next) => {
     })
 })
 //Show route for edit page on meal id.
+router.post('/:id/like', (req,res) => {
+    let meal = Meal.findById(req.params.id)
+    console.log(meal[tree].name)
+    let updatedLikedMeal = req.body
+    // console.log(req.session.username)
+    // updatedLikedMeal.likes.push(req.session.username)
+    // console.log(updatedLikedMeal)
+    Meal.findByIdAndUpdate(req.params.id, updatedLikedMeal, {new:true})
+
+    res.redirect('/meals')
+})
 
 router.get('/:id/edit', (req,res) => {
     Meal.findById(req.params.id, (err, meal) =>{
@@ -118,25 +138,33 @@ router.get('/:id/edit', (req,res) => {
 })
 //Create a meal and red direct to home (will change this to redirect to my meals if logged in)
 router.post('/', (req,res,next) => {
-    Meal.create(req.body)
+    let newMeal = req.body
+    newMeal.owner = req.session.username
+    Meal.create(newMeal)
     console.log(req.body)
+    console.log(newMeal)
+    // console.log(req.body)
     res.redirect('/meals')
     // .catch(next)
+    //YOU FUCKING GENIUS!!!!!!!!!!!!!!!!
 })
 // Edit the meal by id
 router.put('/:id', (req,res,next)=>{
     Meal.findByIdAndUpdate(req.params.id, req.body, {new:true})
-    console.log(req.body)
-    console.log(req.params.id)
+    // console.log(req.body)
+    // console.log(req.params.id)
     res.redirect('/meals')
 
 })
 
 //Delte meal by id, will want to add something like an "Are you sure you want to delete this meal? It'll be lost forever." Message.
 router.delete('/:id', (req,res,next) => {
-    Meal.findByIdAndDelete(req.body)
-    .then (meal => res.json(meal))
-    .catch(next)
+    // Meal.findByIdAndDelete(req.params.id)
+    // res.redirect('/meals/allMeals')
+    console.log(req.params)
+    Meal.findByIdAndDelete(req.params.id)
+    .then(res.redirect('/meals/allMeals'))
+    .then(err => console.log(err))
 })
 
 

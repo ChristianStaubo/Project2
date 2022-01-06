@@ -2,6 +2,7 @@ const mongoose = require('../db/connection')
 const User = require('../models/user')
 const Session = require('../controllers/session')
 
+
 const MealSchema = new mongoose.Schema({
     name:{type:String, required:true},
     type:String,
@@ -10,7 +11,8 @@ const MealSchema = new mongoose.Schema({
     protein:Number,
     ingredients:[String],
     optional:[String],
-    owner:{type:String, default:Session.userToMealModel}
+    owner:{type:String,},
+    likes:[String],
 
 })
 
