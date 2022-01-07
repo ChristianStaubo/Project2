@@ -115,7 +115,8 @@ router.post('/allMeals', (req,res,next) => {
 //When meal is clicked, display meal clicked with all its info
 router.get('/:id', (req,res,next) => {
     Meal.findById((req.params.id), (err, meal) => {
-        res.render('specificMeal', {meal})
+        let username = req.session.username
+        res.render('specificMeal', {meal, username})
     })
 })
 // Show route for edit page on meal id.
