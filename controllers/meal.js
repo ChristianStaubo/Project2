@@ -118,17 +118,38 @@ router.get('/:id', (req,res,next) => {
         res.render('specificMeal', {meal})
     })
 })
-//Show route for edit page on meal id.
-router.post('/:id/like', (req,res) => {
-    let meal = Meal.findById(req.params.id)
-    console.log(meal[tree].name)
-    let updatedLikedMeal = req.body
-    // console.log(req.session.username)
-    // updatedLikedMeal.likes.push(req.session.username)
-    // console.log(updatedLikedMeal)
-    Meal.findByIdAndUpdate(req.params.id, updatedLikedMeal, {new:true})
+// Show route for edit page on meal id.
+// router.post('/:id/like', (req,res) => {
+//     let meal = Meal.findById(req.params.id)
+//     console.log(meal.calories)
+//     let updatedLikedMeal = req.body
+//     // console.log(req.session.username)
+//     // updatedLikedMeal.likes.push(req.session.username)
+//     // console.log(updatedLikedMeal)
+//     Meal.findByIdAndUpdate(req.params.id, updatedLikedMeal, {new:true})
 
+//     res.redirect('/meals')
+// })
+
+router.put('/:id/like', async (req,res,next)=>{
+    //Add a like to a specific meal if you haven't liked already and are logged in
+    try{
+        let meal = await Meal.findById(req.params.id)
+        if (!meal.likes.includes(req.session.username) && req.session.loggedIn){
+        meal.likes.push(req.session.username)
+        await meal.save()
     res.redirect('/meals')
+        }
+        else {
+            res.redirect('/meals')
+            console.log('Not logged in or have liked, can not like')
+        }
+    }
+    catch(err){
+        console.log(err)
+        next(err)
+    }
+
 })
 
 router.get('/:id/edit', (req,res) => {
@@ -150,10 +171,11 @@ router.post('/', (req,res,next) => {
 })
 // Edit the meal by id
 router.put('/:id', (req,res,next)=>{
-    Meal.findByIdAndUpdate(req.params.id, req.body, {new:true})
+    Meal.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err, newMeal) => {
+        res.redirect('/meals/allMeals')
+    })
     // console.log(req.body)
     // console.log(req.params.id)
-    res.redirect('/meals')
 
 })
 

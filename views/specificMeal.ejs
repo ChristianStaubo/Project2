@@ -23,7 +23,8 @@
             <p> Optional: <%= meal.optional %>
                 <% } else{ %>
                     <p>Optional: N/A</p>
-                    <% } %> 
+                    <% } %>
+            <p>Number of likes: <%= meal.likes.length %>
 
             </div>
 
@@ -40,7 +41,7 @@
 </div>
 
 <!-- <a href="/meals/<%= meal.id %>/like ">Like this meal</a> -->
-<form action="/meals/<%= meal.id %>/like" method='POST'>
+<form action="/meals/<%= meal.id %>/like?_method=PUT" method='POST'>
    
 
     <input type="submit" value='Like this meal'>
