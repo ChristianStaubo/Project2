@@ -3,6 +3,7 @@
 <div class ="container-fluid text-center">
     <div class ="text-center">
           <div class ="col-md-12 col-sm-12 text-center mt-5" >
+              <% if (meal) { %> 
               <h2><%= meal.owner %>'s </h2>
             <h1>
                 
@@ -25,13 +26,14 @@
                     <p>Optional: N/A</p>
                     <% } %>
             <p>Number of likes: <%= meal.likes.length %>
+                <% } %> 
 
             </div>
 
 </div>
 
 </div>
-
+<% if (meal) { %> 
 <% if (meal.owner === username) { %> 
 <div class="d-inline flex-column justify-content-between text-center mt-5">
         <form action='/meals/<%= meal.id %>?_method=DELETE' method="POST">
@@ -39,7 +41,7 @@
         </form>
         <a href="/meals/<%= meal.id %>/edit">Edit Me</a>
 </div>
-<% } %> 
+<% } %>
 
 <!-- <a href="/meals/<%= meal.id %>/like ">Like this meal</a> -->
 <form action="/meals/<%= meal.id %>/like?_method=PUT" method='POST'>
@@ -48,6 +50,7 @@
     <input type="submit" value='Like this meal'>
 
 </form>
+<% } %> 
 
 
 

@@ -1,3 +1,5 @@
+//DEPENDENCIES
+
 const express = require('express')
 require('dotenv').config()
 const app = express()
@@ -10,9 +12,10 @@ app.use(methodOverride('_method'))
 const session = require('express-session')
 const mealController = require('./controllers/meal')
 const sessionController = require('./controllers/session')
-// const methodOverride = require('method-override')
 const expressEJSLayouts = require('express-ejs-layouts')
-// app.use(methodOverride('_method'))
+
+//MIDDLEWARE
+
 app.use(session({
     secret: SESSION_SECRET,
     resave: false,
@@ -20,6 +23,7 @@ app.use(session({
 }))
 app.use(express.static('public'))
 app.use(expressEJSLayouts)
+
 //Make username available on all pages
 app.use((req,res,next) => {
     res.locals.username = req.session.username

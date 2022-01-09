@@ -12,10 +12,6 @@ const authRequired = (req,res,next) => {
 }
 //Home route
 router.get('/', (req, res, next) => {
-    // Meal.find({name:"Orange"}, (err, orange)=>{
-    //     console.log(orange)
-    // })
-    // console.log(res.locals.username)
     res.render('home', {
         username: req.session.username
     })
@@ -35,7 +31,17 @@ router.get('/allMeals', (req, res)=> {
     })
 })
 
-router.get('/myMeals', (req, res)=> {
+router.get('/sortedByMostLikes', (req,res) => {
+    Meal.find({}).sort({"calories": -1})
+    .then((meals) => {
+        res.render('allMeals', {meals})
+    })
+    .catch(err => console.log(err))
+    
+})
+
+//Display meals user has created, if logged in
+router.get('/myMeals', authRequired, (req, res)=> {
     Meal.find({owner: res.locals.username }, (err, meals) => {
         res.render('myMeals',{meals})
     })
@@ -49,6 +55,15 @@ router.get('/search', (req,res) => {
     })
 })
 
+router.get('/searchForWeekOfMeals',(req,res) => {
+    Meal.find({}, (err, meals) => {
+        let submitted = false
+        let meals2 = null
+        let meals3 = null
+        res.render('searchForWeekOfMeals', {meals , meals2 , meals3, submitted})
+    })
+})
+//Get a random meal from the database and display it
 router.get('/randomizedMeal', (req,res) => {
     Meal.find({}, (err,meals) => {
         let randomMealIndex = Math.floor(Math.random() * meals.length)
@@ -61,24 +76,157 @@ router.get('/filtered', (req,res) => {
     res.render('filteredMeals')
 })
 
-router.post('/allMeals', (req,res,next) => {
-   //Loop through req.body and if req.body[key] isn't empty, add that to query.
-    //Then pass query to Meal.find
-    let query = {}
-    for (let key in req.body) {
-        if (req.body[key] != ''){
-            query[key] = req.body[key]
-        }
-    }
-    Meal.find(query, (err, meals) => {
-        // console.log('First one')
-        // console.log(req.body)
-        // console.log(query)
+//When search params posted on search page, find meals that match the criteria. If a field is empty, ignore it.
+// router.post('/allMeals', (req,res,next) => {
+//    //Loop through req.body and if req.body[key] isn't empty, add that to query.
+//     //Then pass query to Meal.find
+//     let query = {}
+//     for (let key in req.body) {
+//         if (req.body[key] != ''){
+//             query[key] = req.body[key]
+//         }
+//     }
+//     Meal.find(query, (err, meals) => {
+//         // console.log('First one')
+//         // console.log(req.body)
+//         // console.log(query)
        
-        res.render('filteredMeals', {meals})
-    })
-})
+//         res.render('filteredMeals', {meals})
+//     })
+// })
+router.post('/allMeals', (req,res,next) => {
+    //Loop through req.body and if req.body[key] isn't empty, add that to query.
+     //Then pass query to Meal.find
+     let query = {}
+     for (let key in req.body) {
+         if (req.body[key] != ''){
+             query[key] = req.body[key]
+         }
+     }
 
+     //If protein and calories fields have been submitted, return meals that meet those criteria
+     if (query.protein && query.calories){
+     Meal.find({ $and: [{ calories: {$lte: query.calories}}, { protein: {$gte: query.protein}}]}, (err, meals) => {
+         // console.log('First one')
+         // console.log(req.body)
+         // console.log(query)
+         console.log('Calorie and protein route activated!')
+        
+         res.render('filteredMeals', {meals})
+     })
+    }
+
+    //If just protein submitted, return this
+   else if (query.protein && !query.calories){
+        Meal.find({ protein: {$gte: query.protein}}, (err, meals) => {
+            // console.log('First one')
+            // console.log(req.body)
+            // console.log(query)
+            console.log('protein route activated!')
+           
+            res.render('filteredMeals', {meals})
+        })
+       }
+    //If just calories submitted, return this
+       else if (query.calories && !query.protein){
+        Meal.find({ calories: {$lte: query.calories}}, (err, meals) => {
+            // console.log('First one')
+            // console.log(req.body)
+            // console.log(query)
+            console.log('Calorie route activated!')
+           
+            res.render('filteredMeals', {meals})
+        })
+       }
+    //If neither protein or calories fields submitted, return this
+    else {
+        Meal.find(query, (err, meals) => {
+                    // console.log('First one')
+                    // console.log(req.body)
+                    // console.log(query)
+                   
+                    res.render('filteredMeals', {meals})
+                })
+    }
+ })
+
+router.post('/searchForWeekOfMeals', async (req,res,next) => {
+    //Loop through req.body and if req.body[key] isn't empty, add that to query.
+     //Then pass query to Meal.find
+     let breakfastMeals = null
+     let lunchMeals = null
+     let dinnerMeals = null
+     let meals = null
+     let submitted = true
+     let query = {}
+     for (let key in req.body) {
+         if (req.body[key] != ''){
+             query[key] = req.body[key]
+         }
+     }
+     query.type = "Breakfast"
+    await Meal.find(query, (err, meals) => {
+         // console.log('First one')
+         // console.log(req.body)
+         // console.log(query)
+         breakfastMeals = meals
+         console.log(breakfastMeals)
+        
+     })
+     query.type = "Lunch"
+
+     await Meal.find(query, (err, meals) => {
+        lunchMeals = meals
+     })
+     query.type = "Dinner"
+
+     await Meal.find(query, (err,meals) => {
+         dinnerMeals = meals
+     })
+     res.render('searchForWeekOfMeals', {breakfastMeals, lunchMeals, dinnerMeals, submitted})
+ })
+
+//  router.post('/searchForWeekOfMeals', (req,res,next) => {
+//     //Loop through req.body and if req.body[key] isn't empty, add that to query.
+//      //Then pass query to Meal.find
+//      let submitted = true
+//      let query = {}
+//      for (let key in req.body) {
+//          if (req.body[key] != ''){
+//              query[key] = req.body[key]
+//          }
+//      }
+//      Meal.find(query, (err, meals) => {
+//          // console.log('First one')
+//          // console.log(req.body)
+//          // console.log(query)
+        
+//          res.render('searchForWeekOfMeals', {meals ,submitted})
+//      })
+//  })
+
+
+ router.post('/searchForWeekOfMeals2', (req,res,next) => {
+    //Loop through req.body and if req.body[key] isn't empty, add that to query.
+     //Then pass query to Meal.find
+     let query = {}
+    //  let meals = req.body.meals
+     let meals3 = null
+     for (let key in req.body) {
+         if (req.body[key] != ''){
+             query[key] = req.body[key]
+         }
+     }
+     Meal.find(query, (err, meals2) => {
+         // console.log('First one')
+         // console.log(req.body)
+         // console.log(query)
+         let meals = meals2
+        
+         res.render('searchForWeekOfMeals', {meals , meals2 , meals3})
+     })
+ })
+ 
 //CONCEPT FOR GREATER THAN QUERY OF CALORIES AND PROTEIN
 
 
@@ -119,19 +267,8 @@ router.get('/:id', (req,res,next) => {
         res.render('specificMeal', {meal, username})
     })
 })
-// Show route for edit page on meal id.
-// router.post('/:id/like', (req,res) => {
-//     let meal = Meal.findById(req.params.id)
-//     console.log(meal.calories)
-//     let updatedLikedMeal = req.body
-//     // console.log(req.session.username)
-//     // updatedLikedMeal.likes.push(req.session.username)
-//     // console.log(updatedLikedMeal)
-//     Meal.findByIdAndUpdate(req.params.id, updatedLikedMeal, {new:true})
 
-//     res.redirect('/meals')
-// })
-
+//Like button logic.
 router.put('/:id/like', async (req,res,next)=>{
     //Add a like to a specific meal if you haven't liked already and are logged in
     try{
@@ -142,8 +279,8 @@ router.put('/:id/like', async (req,res,next)=>{
     res.redirect('/meals')
         }
         else {
-            res.redirect('/meals')
-            console.log('Not logged in or have liked, can not like')
+            res.redirect('/session/login')
+            // req.session.message = "You must be logged in to perform this action"
         }
     }
     catch(err){
@@ -152,7 +289,7 @@ router.put('/:id/like', async (req,res,next)=>{
     }
 
 })
-
+//Display edit page for individual meal
 router.get('/:id/edit', (req,res) => {
     Meal.findById(req.params.id, (err, meal) =>{
         res.render('edit', {meal})
@@ -163,30 +300,20 @@ router.post('/', (req,res,next) => {
     let newMeal = req.body
     newMeal.owner = req.session.username
     Meal.create(newMeal)
-    console.log(req.body)
-    console.log(newMeal)
-    // console.log(req.body)
-    res.redirect('/meals')
-    // .catch(next)
-    //YOU FUCKING GENIUS!!!!!!!!!!!!!!!!
+    res.redirect('/meals/myMeals')
 })
+
 // Edit the meal by id
 router.put('/:id', (req,res,next)=>{
     Meal.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err, newMeal) => {
-        res.redirect('/meals/allMeals')
+        res.redirect('/meals/myMeals')
     })
-    // console.log(req.body)
-    // console.log(req.params.id)
-
 })
 
 //Delte meal by id, will want to add something like an "Are you sure you want to delete this meal? It'll be lost forever." Message.
 router.delete('/:id', (req,res,next) => {
-    // Meal.findByIdAndDelete(req.params.id)
-    // res.redirect('/meals/allMeals')
-    console.log(req.params)
     Meal.findByIdAndDelete(req.params.id)
-    .then(res.redirect('/meals/allMeals'))
+    .then(res.redirect('/meals/myMeals'))
     .then(err => console.log(err))
 })
 

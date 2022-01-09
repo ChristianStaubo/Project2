@@ -1,4 +1,7 @@
-<div class ="container-fluid">
+<p>Sort by most liked:</p>
+<a href="/meals/sortedByMostLikes">Click me</a>
+
+<div class ="container">
     <div class ="row">
 
 <% meals.forEach( (meal, index) =>{ %>
@@ -7,6 +10,7 @@
             <h1>
                     <%= meal.name %>
             </h1>
+            <p><%= meal.likes.length %> likes </p>
             <p>By <%= meal.owner %> </p>
         </a>
             <!-- <form action='/meals/<%= meal.id %>?_method=DELETE' method="POST">
