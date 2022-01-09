@@ -276,7 +276,7 @@ router.put('/:id/like', async (req,res,next)=>{
         if (!meal.likes.includes(req.session.username) && req.session.loggedIn){
         meal.likes.push(req.session.username)
         await meal.save()
-    res.redirect('/meals')
+    res.redirect('/meals/allMeals')
         }
         else {
             res.redirect('/session/login')

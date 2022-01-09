@@ -37,19 +37,28 @@
 <% if (meal.owner === username) { %> 
 <div class="d-inline flex-column justify-content-between text-center mt-5">
         <form action='/meals/<%= meal.id %>?_method=DELETE' method="POST">
-            <input type="submit" value="DELETE" />
+            <input type="submit" class="btn btn-outline-secondary mt-3 ml-5" value="Delete" />
         </form>
-        <a href="/meals/<%= meal.id %>/edit">Edit Me</a>
+        <a href="/meals/<%= meal.id %>/edit" class="btn btn-outline-secondary mt-3 ml-5">Edit Me</a>
 </div>
 <% } %>
 
 <!-- <a href="/meals/<%= meal.id %>/like ">Like this meal</a> -->
+<div class ="container-fluid text-center">
+    <div class ="text-center">
+          <div class ="col-md-12 col-sm-12 text-center mt-5" >
 <form action="/meals/<%= meal.id %>/like?_method=PUT" method='POST'>
    
 
-    <input type="submit" value='Like this meal'>
+    <input type="submit" class="btn btn-outline-secondary mt-3 ml-5" value='Like this meal'>
 
 </form>
+
+</div>
+
+</div>
+
+</div>
 <% } %> 
 
 

@@ -1,48 +1,50 @@
 <p>Sort by most liked:</p>
 <a href="/meals/sortedByMostLikes">Click me</a>
 
-<div class ="container">
-    <div class ="row">
+<section id="team" class="pb-5">
+    <div class="container">
+        <h5 class="section-title h1">All Meals</h5>
+        <div class="row">
 
 <% meals.forEach( (meal, index) =>{ %>
-          <div class ="col-md-4 col-sm-4">
-        <a class="link-secondary" href="/meals/<%= meal.id %>">
-            <h1>
-                    <%= meal.name %>
-            </h1>
-            <p><%= meal.likes.length %> likes </p>
-            <p>By <%= meal.owner %> </p>
-        </a>
-            <!-- <form action='/meals/<%= meal.id %>?_method=DELETE' method="POST">
-                <input type="submit" value="DELETE" />
-            </form>
-            <a href="/meals/<%= meal.id %>/edit">Edit Me</a> -->
-          </div>
-   
-    <%  }) %>
 
-</div>
-</div>
+            <!-- Team member -->
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="image-flip" >
+                    <div class="mainflip flip-0">
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <p><img class=" img-fluid" src="/photos/hamburger.jpg" alt="card image"></p>
+                                    <h4 class="card-title"> <%= meal.name  %> </h4>
+                                    <p class="card-text">By <%= meal.owner  %> </p>
+                                    <p class="card-text"> <%= meal.likes.length %> likes </p>
+                                    <a href="/meals/<%= meal.id %>" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-center mt-4">
+                                    <h4 class="card-title"> <%= meal.name  %> </h4>
+                                    <br>
+                                    <p class="card-text"> <%= meal.calories  %> calories  </p>
+                                    <p class="card-text"> <%= meal.protein  %>g protein  </p>
+                                    <p class="card-text hidden">This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.</p>
+                                    <a href="/meals/<%= meal.id %>">Click to learn more</a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%  }) %>
 
-<!-- <div class="container pt-4">
-    <div class="row">
-       <div class="col-lg">
-           <h3 class="mb-4">Add a new meal</h3>
-           <a href="/meals/new"><img src="./photos/healthyMeal.jpg" alt="healthy meal" class="img-fluid mb-4 rounded">
-           </a>
-           <p>Create a meal to add to your list</p>
-   
-       </div>
-       <div class="col-lg">
-           <h3 class="mb-4">Generate random meal</h3>
-           <img src="./photos/healthyMeal.jpg" alt="healthy meal" class="img-fluid mb-4 rounded">
-           <p>Want something other than chicken breast and broccoli? Generate a random meal!</p>
-           
-       </div>
-       <div class="col-lg">
-           <h3 class="mb-4">My meals</h3>
-           <img src="photos/healthyMeal.jpg" alt="healthy meal" class="img-fluid mb-4 rounded">
-           <p>View your saved meals</p>
-           
-       </div>
-   </div> -->
+
+
+
+
+
+
+
