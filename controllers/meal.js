@@ -1,7 +1,8 @@
 const express = require('express')
+// const { Collection } = require('mongoose')
 const router = express.Router()
 const Meal = require('../models/meal')
-
+const Collection = require('../models/collection')
 const authRequired = (req,res,next) => {
     if (req.session.loggedIn) {
         next()
@@ -53,6 +54,26 @@ router.get('/search', (req,res) => {
     Meal.find({} , (err, meals) => {
         res.render('search', {meals})
     })
+})
+
+
+router.get('/collections', authRequired, (req, res)=> {
+    Collection.find({owner: res.locals.username }, (err, collections) => {
+        res.render('collections',{collections})
+    })
+})
+
+router.get('/newCollection', (req,res) => {
+    res.render('newCollection')
+})
+
+//Create a new collection
+router.post('/newCollection', (req,res,next) => {
+    let newCollection = req.body
+    newCollection.owner = req.session.username
+    Collection.create(newCollection)
+    console.log(newCollection)
+    res.redirect('/meals/collections')
 })
 
 router.get('/searchForWeekOfMeals',(req,res) => {
@@ -226,38 +247,7 @@ router.post('/searchForWeekOfMeals', async (req,res,next) => {
          res.render('searchForWeekOfMeals', {meals , meals2 , meals3})
      })
  })
- 
-//CONCEPT FOR GREATER THAN QUERY OF CALORIES AND PROTEIN
 
-
-// router.post('/allMeals', (req,res,next) => {
-//     //Loop through req.body and if req.body[key] isn't empty, add that to query.
-//      //Then pass query to Meal.find
-//      let query = {}
-//      for (let key in req.body) {
-//          if (req.body[key] != ''){
-//              query[key] = req.body[key]
-//          }
-//      }
-//      if (query['calories'] == ''){
-//      Meal.find(query, (err, meals) => {
-//          console.log('First one')
-//          console.log(req.body)
-//          console.log(query)
-        
-//          res.render('filteredMeals', {meals})
-//      })
-//  }
-//  else if (query['calories'] != ''){
-//      Meal.find(query, { $gt:query.calories}, (err, meals) => {
-//          console.log('Second one')
-//          console.log(req.body)
-//          console.log(query)
-        
-//          res.render('filteredMeals', {meals})
-//      })
-//  }
-//  })
 
 
 //When meal is clicked, display meal clicked with all its info
@@ -279,8 +269,13 @@ router.put('/:id/like', async (req,res,next)=>{
     res.redirect('/meals/allMeals')
         }
         else {
+            if(req.session.loggedIn){
+                res.redirect('/meals/allMeals')
+            }
+            else{
             res.redirect('/session/login')
             // req.session.message = "You must be logged in to perform this action"
+            }
         }
     }
     catch(err){
@@ -302,7 +297,6 @@ router.post('/', (req,res,next) => {
     Meal.create(newMeal)
     res.redirect('/meals/myMeals')
 })
-
 // Edit the meal by id
 router.put('/:id', (req,res,next)=>{
     Meal.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err, newMeal) => {

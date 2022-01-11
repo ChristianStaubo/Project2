@@ -17,11 +17,8 @@
         <input type="text"  name="protein" id='protein' class="form-control" placeholder="Protein">
       </div>
       <br>
-      <input type="submit" value='Search for a meal'>
+      <input type="submit" class="btn btn-outline-secondary mt-2 ml-5 mb-3" value='Search for a meal'>
     </div>
   </form>
 
-  <a href="/meals/randomizedMeal" type="button" class="btn btn-outline-secondary mt-3 ml-5">Don't Know what to search for? Click to generate a random meal!</a>
-    <% let randomMealIndex = Math.floor(Math.random() * meals.length) %>
-
-    <p> <%= meals[randomMealIndex].name %> </p>
+  <a href="/meals/randomizedMeal" type="button" class="btn btn-outline-secondary mt-3 ml-5">Don't Know what to search for? Click to view a random meal!</a>

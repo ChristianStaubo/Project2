@@ -1,0 +1,18 @@
+<h1>My Collections</h1>
+<a href="/meals/newCollection">Create a new collection</a>
+<div class="container pt-4">
+    <div class="row bg-secondary">
+        <% collections.forEach((collection, index) => { %> 
+       <div class="col-lg">
+           <h3 class="mb-4"><%= collection.name  %> </h3>
+           <a href="/meals/new">
+               <p><%= collection.breakfast  %></p>
+               <p><%= collection.lunch  %></p>
+               <p><%= collection.dinner  %></p>
+
+           </a>
+   
+       </div>
+       <% }) %> 
+    </div>
+</div>

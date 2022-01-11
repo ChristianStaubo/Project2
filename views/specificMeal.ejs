@@ -1,66 +1,40 @@
 <a href="/meals/allMeals" type="button" class="btn btn-outline-secondary mt-3 ml-5">Back</a>
 
-<div class ="container-fluid text-center">
-    <div class ="text-center">
-          <div class ="col-md-12 col-sm-12 text-center mt-5" >
-              <% if (meal) { %> 
-              <h2><%= meal.owner %>'s </h2>
-            <h1>
-                
-                    <%= meal.name %>
-            </h1>
-            <p>Calories: <%= meal.calories %>
-                <br>
-            <p> Protein: <%= meal.protein %> g
-                <br>
-                <% if (meal.ingredients) {%> 
-                    <p> ingredients: <%= meal.ingredients %>
-                <br>
-                        <% } else{ %>
-                            <p>ingredients: N/A</p>
-                            <br>
-                            <% } %> 
-                <% if (meal.optional) {%> 
-            <p> Optional: <%= meal.optional %>
-                <% } else{ %>
-                    <p>Optional: N/A</p>
-                    <% } %>
-            <p>Number of likes: <%= meal.likes.length %>
-                <% } %> 
-
-            </div>
-
+<div class="card">
+    <div class="card-body text-center">
+        <% if (meal) { %> 
+        <p><img class=" img-fluid rounded-circle specificMealImg" src="/photos/hamburger.jpg" alt="card image"></p>
+        <h4 class="card-title"> <%= meal.name  %> </h4>
+        <p class="card-text">By <%= meal.owner  %> </p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, quaerat saepe incidunt amet facere illo, dolor ducimus, molestias consectetur dolore in? Dolor voluptas et rem. Perferendis voluptates dolorem quam dignissimos.</p>
+    </div>
+    <% if (meal.owner === username) { %> 
+    <div class="d-inline flex-column justify-content-between text-center mt-5">
+            <form action='/meals/<%= meal.id %>?_method=DELETE' method="POST">
+                <input type="submit" class="btn btn-outline-secondary mt-3 ml-5" value="Delete" />
+            </form>
+            <a href="/meals/<%= meal.id %>/edit" class="btn btn-outline-secondary mt-3 ml-5">Edit Me</a>
+    </div>
+    <% } %>
+    
+    <!-- <a href="/meals/<%= meal.id %>/like ">Like this meal</a> -->    
+    </div>
+    
+    </div>
 </div>
-
-</div>
-<% if (meal) { %> 
-<% if (meal.owner === username) { %> 
-<div class="d-inline flex-column justify-content-between text-center mt-5">
-        <form action='/meals/<%= meal.id %>?_method=DELETE' method="POST">
-            <input type="submit" class="btn btn-outline-secondary mt-3 ml-5" value="Delete" />
-        </form>
-        <a href="/meals/<%= meal.id %>/edit" class="btn btn-outline-secondary mt-3 ml-5">Edit Me</a>
-</div>
-<% } %>
-
-<!-- <a href="/meals/<%= meal.id %>/like ">Like this meal</a> -->
 <div class ="container-fluid text-center">
     <div class ="text-center">
           <div class ="col-md-12 col-sm-12 text-center mt-5" >
 <form action="/meals/<%= meal.id %>/like?_method=PUT" method='POST'>
    
 
-    <input type="submit" class="btn btn-outline-secondary mt-3 ml-5" value='Like this meal'>
+    <input type="submit" class="btn btn-outline-secondary mt-3 ml-5 mb-3" value='Like this meal'>
 
 </form>
 
 </div>
 
+    <% } %> 
 </div>
-
-</div>
-<% } %> 
-
-
 
 <!-- <p>Not Satisfied? Click to generate a random meal!</p> -->

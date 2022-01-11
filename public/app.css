@@ -164,3 +164,9 @@ section .section-title {
 .hidden {
   visibility: hidden;
 }
+
+.specificMealImg {
+  height: 30%;
+  width: 20%;
+
+}
