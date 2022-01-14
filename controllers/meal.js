@@ -32,14 +32,40 @@ router.get('/allMeals', (req, res)=> {
     })
 })
 
+//SORTING BY LIKES, CALORIES, AND PROTEIN ON allMeals PAGE
 router.get('/sortedByMostLikes', (req,res) => {
-    Meal.find({}).sort({"calories": -1})
+    Meal.find({}).sort({"likes": -1})
+    .then((meals) => {
+        let sortedBylikesMeals = meals.sort((first,second) => {
+            let firstLength = first.likes.length
+            let secondLength = second.likes.length
+            return secondLength - firstLength
+
+        })
+        res.render('allMeals', {sortedBylikesMeals, meals})
+    })
+    .catch(err => console.log(err))
+    
+})
+
+router.get('/sortedByLeastCalories', (req,res) => {
+    Meal.find({}).sort({"calories": 1})
     .then((meals) => {
         res.render('allMeals', {meals})
     })
     .catch(err => console.log(err))
     
 })
+
+router.get('/sortedByMostProtein', (req,res) => {
+    Meal.find({}).sort({"protein": -1})
+    .then((meals) => {
+        res.render('allMeals', {meals})
+    })
+    .catch(err => console.log(err))
+    
+})
+
 
 //Display meals user has created, if logged in
 router.get('/myMeals', authRequired, (req, res)=> {
@@ -59,19 +85,28 @@ router.get('/search', (req,res) => {
 
 router.get('/collections', authRequired, (req, res)=> {
     Collection.find({owner: res.locals.username }, (err, collections) => {
+        // console.log(collections)
+        // collections.forEach(collection => console.log(collection.breakfastProtein))
+        collections.forEach(collection => console.log(collection.breakfastCalories))
+
         res.render('collections',{collections})
     })
 })
 
 router.get('/newCollection', (req,res) => {
-    res.render('newCollection')
+    Meal.find({}, (err, meals) => {
+        res.render('newCollection', {meals})
+    })
 })
 
 //Create a new collection
 router.post('/newCollection', (req,res,next) => {
     let newCollection = req.body
+    // console.log(req.body)
     newCollection.owner = req.session.username
     Collection.create(newCollection)
+    console.log(newCollection.breakfastCalories)
+    console.log(newCollection.breakfastProtein)
     console.log(newCollection)
     res.redirect('/meals/collections')
 })
@@ -171,45 +206,13 @@ router.post('/allMeals', (req,res,next) => {
     }
  })
 
-router.post('/searchForWeekOfMeals', async (req,res,next) => {
-    //Loop through req.body and if req.body[key] isn't empty, add that to query.
-     //Then pass query to Meal.find
-     let breakfastMeals = null
-     let lunchMeals = null
-     let dinnerMeals = null
-     let meals = null
-     let submitted = true
-     let query = {}
-     for (let key in req.body) {
-         if (req.body[key] != ''){
-             query[key] = req.body[key]
-         }
-     }
-     query.type = "Breakfast"
-    await Meal.find(query, (err, meals) => {
-         // console.log('First one')
-         // console.log(req.body)
-         // console.log(query)
-         breakfastMeals = meals
-         console.log(breakfastMeals)
-        
-     })
-     query.type = "Lunch"
-
-     await Meal.find(query, (err, meals) => {
-        lunchMeals = meals
-     })
-     query.type = "Dinner"
-
-     await Meal.find(query, (err,meals) => {
-         dinnerMeals = meals
-     })
-     res.render('searchForWeekOfMeals', {breakfastMeals, lunchMeals, dinnerMeals, submitted})
- })
-
-//  router.post('/searchForWeekOfMeals', (req,res,next) => {
+// router.post('/searchForWeekOfMeals', async (req,res,next) => {
 //     //Loop through req.body and if req.body[key] isn't empty, add that to query.
 //      //Then pass query to Meal.find
+//      let breakfastMeals = null
+//      let lunchMeals = null
+//      let dinnerMeals = null
+//      let meals = null
 //      let submitted = true
 //      let query = {}
 //      for (let key in req.body) {
@@ -217,14 +220,46 @@ router.post('/searchForWeekOfMeals', async (req,res,next) => {
 //              query[key] = req.body[key]
 //          }
 //      }
-//      Meal.find(query, (err, meals) => {
+//      query.type = "Breakfast"
+//     await Meal.find(query, (err, meals) => {
 //          // console.log('First one')
 //          // console.log(req.body)
 //          // console.log(query)
+//          breakfastMeals = meals
+//          console.log(breakfastMeals)
         
-//          res.render('searchForWeekOfMeals', {meals ,submitted})
 //      })
+//      query.type = "Lunch"
+
+//      await Meal.find(query, (err, meals) => {
+//         lunchMeals = meals
+//      })
+//      query.type = "Dinner"
+
+//      await Meal.find(query, (err,meals) => {
+//          dinnerMeals = meals
+//      })
+//      res.render('searchForWeekOfMeals', {breakfastMeals, lunchMeals, dinnerMeals, submitted})
 //  })
+
+ router.post('/searchForWeekOfMeals', (req,res,next) => {
+    //Loop through req.body and if req.body[key] isn't empty, add that to query.
+     //Then pass query to Meal.find
+     let submitted = true
+     let query = {}
+     for (let key in req.body) {
+         if (req.body[key] != ''){
+             query[key] = req.body[key]
+         }
+     }
+     Meal.find(query, (err, meals) => {
+         // console.log('First one')
+         // console.log(req.body)
+         // console.log(query)
+        
+         res.render('searchForWeekOfMeals', {meals ,submitted})
+     })
+ })
 
 
  router.post('/searchForWeekOfMeals2', (req,res,next) => {
@@ -305,6 +340,12 @@ router.put('/:id', (req,res,next)=>{
 })
 
 //Delte meal by id, will want to add something like an "Are you sure you want to delete this meal? It'll be lost forever." Message.
+
+router.delete('/collections/:id', (req,res,next) => {
+    Collection.findByIdAndDelete(req.params.id)
+    .then(res.redirect('/meals/collections'))
+    .then(err => console.log(err))
+})
 router.delete('/:id', (req,res,next) => {
     Meal.findByIdAndDelete(req.params.id)
     .then(res.redirect('/meals/myMeals'))

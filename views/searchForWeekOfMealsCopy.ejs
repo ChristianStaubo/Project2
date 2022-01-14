@@ -36,17 +36,17 @@
               <div class="form-group col-7">
                 <label for="exampleFormControlSelect1">Breakfast</label>
                 <select class="form-control" name="breakfast" id='breakfast'>
-                  <option value="">--Please choose an option--</option>
                   <% meals.forEach( (meal, index) =>{ %>
                     <% if (meal.type === 'Breakfast') {%>
                       <% let breakfastCalories = meal.calories %>
                       <% let breakfastProtein = meal.protein %> 
-                      <option value="<%= meal.name %> "><%= meal.name %>, <%= meal.calories  %> calories,<%= meal.protein  %> g protein </option>
+                  <option><%= meal.name , meal.protein, meal.calories %>
+                    <!-- <input type="text" name="breakfastCalories" id='breakfastCalories' class="form-control" placeholder="breakfastCalories" value="<#%=breakfastCalories %> ">
+                    <input type="text" name="breakfastProtein" id='breakfastProtein' class="form-control" placeholder="breakfastProtein" value="<#%=breakfastProtein %#> "> -->
+                  </option>
                   <% } %> 
               <%  }) %>
-            </select>
-              <input  type="text" name="breakfastCalories" id='breakfastCalories' class="form-control" placeholder="Calories">
-                    <input  type="text" name="breakfastProtein" id='breakfastProtein' class="form-control" placeholder="Protein in g">
+                </select>
               </div>
               <div class="form-group col-7">
                 <label for="exampleFormControlSelect1">Lunch</label>
@@ -56,27 +56,28 @@
                     <% if (meal.type === 'Lunch') {%>
                       <% let lunchCalories = meal.calories %>
                       <% let lunchProtein = meal.protein %> 
-                      <option value="<%= meal.name %> "><%= meal.name %>, <%= meal.calories  %> calories,<%= meal.protein  %> g protein </option>
+                  <option><%= meal.name %>
+                    <input  type="text" name="breakfastCalories" id='breakfastCalories' class="form-control" placeholder="breakfastCalories" value="<%=lunchCalories %> ">
+                    <input  type="text" name="breakfastProtein" id='breakfastProtein' class="form-control" placeholder="breakfastProtein" value="<%=lunchProtein %> ">
+                  </option>
                   <% } %> 
               <%  }) %>
-            </select>
-              <input  type="text" name="lunchCalories" id='lunchCalories' class="form-control" placeholder="Calories">
-                    <input  type="text" name="lunchProtein" id='lunchProtein' class="form-control" placeholder="Protein in g">
+                </select>
               </div>
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Dinner</label>
                 <select class="form-control" name="dinner" id='dinner'>
-                  <option value="">--Please choose an option--</option>
                   <% meals.forEach( (meal, index) =>{ %>
                     <% if (meal.type === 'Dinner') {%>
                       <% let dinnerCalories = meal.calories %>
                       <% let dinnerProtein = meal.protein %> 
-                      <option value="<%= meal.name %> "><%= meal.name %>, <%= meal.calories  %> calories,<%= meal.protein  %> g protein </option>
+                  <option><%= meal.name %>
+                    <input type="text" name="dinnerCalories" id='dinnerCalories' class="form-control" placeholder="dinnerCalories" value="<%=dinnerCalories %> ">
+                    <input  type="text" name="dinnerProtein" id='dinnerProtein' class="form-control" placeholder="dinnerProtein" value="<%=dinnerProtein %> ">
+                  </option>
                   <% } %> 
-              <%  }) %>
-            </select>
-              <input  type="text" name="dinnerCalories" id='dinnerCalories' class="form-control" placeholder="Calories">
-                    <input  type="text" name="dinnerProtein" id='dinnerProtein' class="form-control" placeholder="Protein in g">
+                  <%  }) %>
+                </select>
                 <input type="submit" class="btn btn-outline-secondary mt-3 ml-5 mb-3" value='Create new collection'>
               </div>
           </form>
@@ -98,3 +99,8 @@
           </script>
          
 <!-- Find three meals where the cal of each meal summed up is less than calorie param added. If none, tell user "Can't find based on your search parameters.". -->
+
+
+
+
+<option><%= meal.name %>, <%= meal.calories  %> calories,<%= meal.protein  %> g protein </option>

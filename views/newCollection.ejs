@@ -27,3 +27,16 @@
       <input type="submit" class="btn btn-outline-secondary mt-3 ml-5 mb-3" value='Create new collection'>
     </div>
   </form>
+
+    <div class="dropdown mt-3">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Breakfast
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <% meals.forEach( (meal, index) =>{ %>
+        <li><a class="dropdown-item" href="#"><%= meal.name %>, <%= meal.calories  %> calories, <%= meal.protein  %>g of protein  </a></li>
+        </ul>
+      </div>
+
+      <% }) %> 
+    </div>

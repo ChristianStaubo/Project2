@@ -7,16 +7,24 @@ const CollectionSchema = new mongoose.Schema({
     },
     breakfast: {
         type:String,
-        default:'N/A'
+        default:'N/A',
     },
+    breakfastCalories:Number,
+    breakfastProtein:Number,
     lunch: {
         type:String,
-        default:'N/A'
+        default:'N/A',
+        calories:Number
     },
+    lunchCalories:Number,
+    lunchProtein:Number,
     dinner: {
         type:String,
-        default:'N/A'
+        default:'N/A',
+        calories:Number
     },
+    dinnerCalories:Number,
+    dinnerProtein:Number,
     owner: {
         type:String,
     },
