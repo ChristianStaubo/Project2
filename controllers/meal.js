@@ -3,6 +3,34 @@ const express = require('express')
 const router = express.Router()
 const Meal = require('../models/meal')
 const Collection = require('../models/collection')
+
+const multer = require('multer')
+
+//define storage for images
+
+const storage = multer.diskStorage({
+
+    //destination for files
+    destination:function (req, file, callback) {
+        callback(null, '../public/photos/images')
+    },
+
+
+    //ad back the extension
+    filename:function (req,file,callback) {
+        callback(null, file.originalname)
+    }
+})
+
+//upload parameters for multer
+
+const upload = multer({
+    storage:storage,
+    limits:{
+        fieldSize:1024* 1024 * 3 
+    }
+})
+
 const authRequired = (req,res,next) => {
     if (req.session.loggedIn) {
         next()
@@ -28,6 +56,7 @@ router.get('/new', authRequired, (req, res, next) => {
 //Display all meals route
 router.get('/allMeals', (req, res)=> {
     Meal.find({}, (err, meals) => {
+        console.log(meals[0].img)
         res.render('allMeals',{meals})
     })
 })
@@ -326,9 +355,13 @@ router.get('/:id/edit', (req,res) => {
     })
 })
 //Create a meal and red direct to home (will change this to redirect to my meals if logged in)
-router.post('/', (req,res,next) => {
+router.post('/', upload.single('image'), (req,res,next) => {
+    console.log(req.file)
+    // req.file.path = '../public/photos/images'
+    console.log(req.file)
     let newMeal = req.body
     newMeal.owner = req.session.username
+    newMeal.img = req.file.filename
     Meal.create(newMeal)
     res.redirect('/meals/myMeals')
 })

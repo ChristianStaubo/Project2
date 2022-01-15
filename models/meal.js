@@ -13,6 +13,7 @@ const MealSchema = new mongoose.Schema({
     optional:[String],
     owner:{type:String,},
     likes:[String],
+    img:String,
 
 })
 

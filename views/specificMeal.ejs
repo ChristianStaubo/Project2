@@ -5,8 +5,16 @@
         <% if (meal) { %> 
         <p><img class=" img-fluid rounded-circle specificMealImg" src="/photos/hamburger.jpg" alt="card image"></p>
         <h4 class="card-title"> <%= meal.name  %> </h4>
-        <p class="card-text">By <%= meal.owner  %> </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, quaerat saepe incidunt amet facere illo, dolor ducimus, molestias consectetur dolore in? Dolor voluptas et rem. Perferendis voluptates dolorem quam dignissimos.</p>
+        <p class="card-text">By <%= meal.owner  %></p>
+        <p class="card-text"><%= meal.calories  %> calories, <%= meal.protein  %> g of protein  %></p>
+        <% if (meal.ingredients) { %>
+            <p class="card-text"> Ingredients: <%= meal.ingredients%></p>
+            <% if (meal.optional.length > 1) { %>
+                <p class="card-text">Optional addatives include:<%= meal.optional%></p>
+                <% } %> 
+            
+        <% } %>
+         
     </div>
     <% if (meal.owner === username) { %> 
     <div class="d-inline flex-column justify-content-between text-center mt-5">
@@ -28,7 +36,7 @@
 <form action="/meals/<%= meal.id %>/like?_method=PUT" method='POST'>
    
 
-    <input type="submit" class="btn btn-outline-secondary mt-3 ml-5 mb-3" value='Like this meal'>
+    <input type="submit" class="btn btn-outline-primary mt-3 ml-5 mb-3" value='Like this meal'>
 
 </form>
 

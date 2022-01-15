@@ -19,6 +19,7 @@
         <div class="row">
 
 <% meals.forEach( (meal, index) =>{ %>
+    <% console.log(meal.img) %> 
 
             <!-- Team member -->
             <div class="col-xs-12 col-sm-6 col-md-4">
@@ -27,7 +28,13 @@
                         <div class="frontside">
                             <div class="card">
                                 <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="/photos/hamburger.jpg" alt="card image"></p>
+                                    <% if (meal.img){ %> 
+                                    <p><img class=" img-fluid" src="/photos/images/<%=meal.img %>" alt="card image"></p>
+                                    <% } else{ %>
+                                        <% let randomColors = ['darkBlue.jpg', 'lightBlue.jpg', 'orange.jpg','red.jpg','darkGreen.jpg','lightGreen.jpg'] %>
+                                        <% let randomIndex = Math.floor(Math.random()* randomColors.length) %>  
+                                        <p><img class=" img-fluid" src="/photos/randomColors/<%= randomColors[randomIndex]%>" alt="card image"></p>
+                                        <% } %>
                                     <h4 class="card-title"> <%= meal.name  %> </h4>
                                     <p class="card-text">By <%= meal.owner  %> </p>
                                     <p class="card-text"> <%= meal.likes.length %> likes </p>
