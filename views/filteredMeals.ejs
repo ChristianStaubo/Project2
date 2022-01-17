@@ -1,18 +1,24 @@
+<% if (meals.length > 0) { %>
 <section id="team" class="pb-5">
     <div class="container">
         <h5 class="section-title h1">Filtered Meals</h5>
-        <div class="row">
-
+        <div class="row"> 
 <% meals.forEach( (meal, index) =>{ %>
 
-            <!-- Team member -->
+            <!-- Each meal with card -->
             <div class="col-xs-12 col-sm-6 col-md-4">
                 <div class="image-flip" >
                     <div class="mainflip flip-0">
                         <div class="frontside">
                             <div class="card">
                                 <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="/photos/images/<%= meal.img  %> " alt="card image"></p>
+                                    <% if (meal.img){ %> 
+                                        <p><img class=" img-fluid rounded-circle specificMealImg" src="/controllers/<%=meal.img %>" alt="card image"></p>
+                                        <% } else{ %>
+                                            <% let randomColors = ['darkBlue.jpg', 'lightBlue.jpg', 'orange.jpg','red.jpg','darkGreen.jpg','lightGreen.jpg'] %>
+                                            <% let randomIndex = Math.floor(Math.random()* randomColors.length) %>  
+                                            <p><img class=" img-fluid rounded-circle specificMealImg" src="/photos/randomColors/<%= randomColors[randomIndex]%>" alt="card image"></p>
+                                            <% } %>
                                     <h4 class="card-title"> <%= meal.name  %> </h4>
                                     <p class="card-text">By <%= meal.owner  %> </p>
                                     <p class="card-text"> <%= meal.likes.length %> likes </p>
@@ -37,5 +43,8 @@
                 </div>
             </div>
             <%  }) %>
+            <% } else { %>
+                <h4 class="text-center mt-5">Sorry, no meals matched the search parameters given. <a href="/meals/search">Click here to search again with revised parameters</a></h4>
+                <% } %> 
 
 
