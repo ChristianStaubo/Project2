@@ -1,32 +1,48 @@
 <a href="/meals/search" type="button" class="btn btn-outline-secondary mt-3 ml-5">Back</a>
 
+<div class="card">
+    <div class="card-body text-center">
+        <% if (meal) { %> 
+            <% if (meal.img){ %> 
+                <p><img class=" img-fluid rounded-circle specificMealImg" src="/controllers/<%=meal.img %>" alt="card image"></p>
+                <% } else{ %>
+                    <% let randomColors = ['darkBlue.jpg', 'lightBlue.jpg', 'orange.jpg','red.jpg','darkGreen.jpg','lightGreen.jpg'] %>
+                    <% let randomIndex = Math.floor(Math.random()* randomColors.length) %>  
+                    <p><img class=" img-fluid rounded-circle specificMealImg" src="/photos/randomColors/<%= randomColors[randomIndex]%>" alt="card image"></p>
+                    <% } %>
+        <h4 class="card-title"> <%= meal.name  %> </h4>
+        <p class="card-text">By <%= meal.owner  %></p>
+        <p class="card-text"><%= meal.calories  %> calories, <%= meal.protein  %> g of protein  %></p>
+        <% if (meal.ingredients) { %>
+            <p class="card-text"> Ingredients: <%= meal.ingredients%></p>
+            <% if (meal.optional.length > 1) { %>
+                <p class="card-text">Optional addatives include:<%= meal.optional%></p>
+                <% } %> 
+            
+        <% } %>
+         
+    </div>
+    
+    <!-- <a href="/meals/<%= meal.id %>/like ">Like this meal</a> -->    
+    </div>
+    
+    </div>
+</div>
 <div class ="container-fluid text-center">
     <div class ="text-center">
           <div class ="col-md-12 col-sm-12 text-center mt-5" >
-              <h2><%= meal.owner %>'s </h2>
-            <h1>
-                
-                    <%= meal.name %>
-            </h1>
-            <p>Calories: <%= meal.calories %>
-                <br>
-            <p> Protein: <%= meal.protein %> g
-                <br>
-                <% if (meal.ingredients) {%> 
-                    <p> ingredients: <%= meal.ingredients %>
-                <br>
-                        <% } else{ %>
-                            <p>ingredients: N/A</p>
-                            <br>
-                            <% } %> 
-                <% if (meal.optional) {%> 
-            <p> Optional: <%= meal.optional %>
-                <% } else{ %>
-                    <p>Optional: N/A</p>
-                    <% } %> 
+<form action="/meals/<%= meal.id %>/like?_method=PUT" method='POST'>
+   
 
-            </div>
+    <input type="submit" class="btn btn-outline-primary mt-3 ml-5 mb-3" value='Like this meal'>
+
+</form>
 
 </div>
-<a href="/meals/randomizedMeal" type="button" class="btn btn-outline-secondary mt-3 ml-5 text-center">Not Satisfied? Click to generate another random meal!</a>
+
+    <% } %>
+</div>
+<a href="/meals/randomizedMeal" type="button" class="btn btn-outline-primary mt-3 ml-5 text-center">Not Satisfied? Click to generate another random meal!</a>
+</div>
+
 </div>

@@ -3,14 +3,20 @@
 <div class="card">
     <div class="card-body text-center">
         <% if (meal) { %> 
-        <p><img class=" img-fluid rounded-circle specificMealImg" src="/photos/hamburger.jpg" alt="card image"></p>
+        <% if (meal.img){ %> 
+            <p><img class=" img-fluid rounded-circle specificMealImg" src="/controllers/<%=meal.img %>" alt="card image"></p>
+            <% } else{ %>
+                <% let randomColors = ['darkBlue.jpg', 'lightBlue.jpg', 'orange.jpg','red.jpg','darkGreen.jpg','lightGreen.jpg'] %>
+                <% let randomIndex = Math.floor(Math.random()* randomColors.length) %>  
+                <p><img class=" img-fluid rounded-circle specificMealImg" src="/photos/randomColors/<%= randomColors[randomIndex]%>" alt="card image"></p>
+                <% } %>
         <h4 class="card-title"> <%= meal.name  %> </h4>
         <p class="card-text">By <%= meal.owner  %></p>
         <p class="card-text"><%= meal.calories  %> calories, <%= meal.protein  %> g of protein  %></p>
         <% if (meal.ingredients) { %>
             <p class="card-text"> Ingredients: <%= meal.ingredients%></p>
-            <% if (meal.optional.length > 1) { %>
-                <p class="card-text">Optional addatives include:<%= meal.optional%></p>
+            <% if (meal.optional != '') { %>
+                <p class="card-text">Optional addatives include: <%= meal.optional%></p>
                 <% } %> 
             
         <% } %>

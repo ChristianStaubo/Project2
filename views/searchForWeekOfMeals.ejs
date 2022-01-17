@@ -1,17 +1,9 @@
-<p>Input max and min desired protein per meal to generate three seperate meals</p>
 <div class="container pt-4">
+  <h5 class="mb-5">Input Max calories and min protein desired per meal to generate options for a full days worth of eating</h5>
     <div class="row">
        <div class="col-lg">
         <form action="/meals/searchForWeekOfMeals" method='POST'>
             <div class="form-row">
-              <!-- <div class="col-7">
-                <input type="text" name="name" id='name' class="form-control" placeholder="Name">
-              </div>
-              <br>
-              <div class="col-7">
-                <input type="text" name="type" id='type' class="form-control" placeholder="Type: Breakfast, Lunch or Dinner">
-              </div>
-              <br> -->
               <div class="col-7">
                 <input type="text" name="calories" id='calories' class="form-control" placeholder="Max calories">
               </div>
@@ -20,7 +12,7 @@
                 <input type="text"  name="protein" id='protein' class="form-control" placeholder="Protein desired">
               </div>
               <br>
-              <input type="submit" class="btn btn-outline-secondary mt-2 ml-5 mb-3" value='Search for a meal'>
+              <input type="submit" class="btn btn-outline-primary mt-2 ml-5 mb-3" value='Search for a meal'>
             </div>
           </form>
    
@@ -30,12 +22,13 @@
           <form action="/meals/newCollection" method='POST'>
             <div class="form-row align-items-center">
               <div class="col-7">
-                <input type="text" name="name" id='name' class="form-control" placeholder="Name">
+                <label for="exampleFormControlSelect1">Collection Name <span style="color:red">*</span></label>
+                <input type="text" name="name" id='name' class="form-control" placeholder="Ex: Monday" required>
               </div>
               <br>
               <div class="form-group col-7">
                 <label for="exampleFormControlSelect1">Breakfast</label>
-                <select class="form-control" name="breakfast" id='breakfast'>
+                <select class="form-control" name="breakfast" id='breakfast' required>
                   <option value="">--Please choose an option--</option>
                   <% meals.forEach( (meal, index) =>{ %>
                     <% if (meal.type === 'Breakfast') {%>
@@ -45,12 +38,15 @@
                   <% } %> 
               <%  }) %>
             </select>
-              <input  type="text" name="breakfastCalories" id='breakfastCalories' class="form-control" placeholder="Calories">
-                    <input  type="text" name="breakfastProtein" id='breakfastProtein' class="form-control" placeholder="Protein in g">
+            <label for="exampleFormControlSelect1">Calories <span style="color:red">*</span></label>
+              <input  type="text" name="breakfastCalories" id='breakfastCalories' class="form-control" placeholder="Ex: 350" required>
+              <label for="exampleFormControlSelect1">Grams of protein <span style="color:red">*</span></label>
+                    <input  type="text" name="breakfastProtein" id='breakfastProtein' class="form-control" placeholder="Ex: 27" required>
               </div>
+              <br>
               <div class="form-group col-7">
                 <label for="exampleFormControlSelect1">Lunch</label>
-                <select class="form-control" name="lunch" id='lunch'>
+                <select class="form-control" name="lunch" id='lunch' required>
                   <option value="">--Please choose an option--</option>
                   <% meals.forEach( (meal, index) =>{ %>
                     <% if (meal.type === 'Lunch') {%>
@@ -60,12 +56,15 @@
                   <% } %> 
               <%  }) %>
             </select>
-              <input  type="text" name="lunchCalories" id='lunchCalories' class="form-control" placeholder="Calories">
-                    <input  type="text" name="lunchProtein" id='lunchProtein' class="form-control" placeholder="Protein in g">
+            <label for="exampleFormControlSelect1">Calories <span style="color:red">*</span></label>
+              <input  type="text" name="lunchCalories" id='lunchCalories' class="form-control" placeholder="Ex: 350" required>
+              <label for="exampleFormControlSelect1">Grams of protein <span style="color:red">*</span></label>
+                    <input  type="text" name="lunchProtein" id='lunchProtein' class="form-control" placeholder="Ex: 27" required>
               </div>
-              <div class="form-group">
+              <br>
+              <div class="form-group col-7">
                 <label for="exampleFormControlSelect1">Dinner</label>
-                <select class="form-control" name="dinner" id='dinner'>
+                <select class="form-control" name="dinner" id='dinner' required>
                   <option value="">--Please choose an option--</option>
                   <% meals.forEach( (meal, index) =>{ %>
                     <% if (meal.type === 'Dinner') {%>
@@ -75,9 +74,11 @@
                   <% } %> 
               <%  }) %>
             </select>
-              <input  type="text" name="dinnerCalories" id='dinnerCalories' class="form-control" placeholder="Calories">
-                    <input  type="text" name="dinnerProtein" id='dinnerProtein' class="form-control" placeholder="Protein in g">
-                <input type="submit" class="btn btn-outline-secondary mt-3 ml-5 mb-3" value='Create new collection'>
+            <label for="exampleFormControlSelect1">Calories <span style="color:red">*</span></label>
+              <input  type="text" name="dinnerCalories" id='dinnerCalories' class="form-control" placeholder="Ex: 350" required>
+              <label for="exampleFormControlSelect1">Grams of protein <span style="color:red">*</span></label>
+                    <input  type="text" name="dinnerProtein" id='dinnerProtein' class="form-control" placeholder="Ex: 27" required>
+                <input type="submit" class="btn btn-outline-primary mt-3 ml-5 mb-3" value='Create new collection'>
               </div>
           </form>
           <% } %> 
