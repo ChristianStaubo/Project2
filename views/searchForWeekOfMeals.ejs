@@ -18,7 +18,7 @@
    
         </div>
 
-          <% if (submitted) { %> 
+          <% if (submitted && meals.length > 0) { %> 
           <form action="/meals/newCollection" method='POST'>
             <div class="form-row align-items-center">
               <div class="col-7">
@@ -81,4 +81,7 @@
                 <input type="submit" class="btn btn-outline-primary mt-3 ml-5 mb-3" value='Create new collection'>
               </div>
           </form>
-          <% } %>
+          <% } else if (submitted && meals.length <= 0) { %>
+            <h4 class="text-center mt-5">Sorry, no meals matched the search parameters given. Please revise your parameters and try again</h4>
+                <% } %> 
+
