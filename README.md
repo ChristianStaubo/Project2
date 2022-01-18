@@ -7,6 +7,12 @@ Users can create meals, search for meals based on search parameters, edit and de
 
 Challenges I faced: Whilst creating the collections, due to time constraints I had to choose between functionality or styling, I went with the former. I hope to revisit and make it more user friendly and less ugly. I also struggled with Multer and decided to hold off on adding that to production, and solve after my presentation.
 
+Wire Frames
+
+![Project2Home](https://user-images.githubusercontent.com/89940133/149842194-62654b0e-5399-4d1f-8cd0-e908e0e0e7c1.png)
+![Project2EditMealsByID](https://user-images.githubusercontent.com/89940133/149842355-8907d929-4c4d-4c86-8a94-078d5498e6cd.png)
+![Project2RandomDaysWorthOfMealsDisplayed](https://user-images.githubusercontent.com/89940133/149842377-1ac1a14e-2ee8-4f05-8524-3c9870a99ade.png)
+![Project2ShowMyMealsByID](https://user-images.githubusercontent.com/89940133/149842400-ea9c14aa-698b-46e7-b954-1b4db55c93b8.png)
 
 User Stories
 
