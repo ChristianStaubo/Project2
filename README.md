@@ -7,6 +7,8 @@ Users can create meals, search for meals based on search parameters, edit and de
 
 ### Challenges I faced: Whilst creating the collections, due to time constraints I had to choose between functionality or styling, I went with the former. I hope to revisit and make it more user friendly and less ugly. I also struggled with Multer and decided to hold off on adding that to production, and solve after my presentation.
 
+[Click here to visit site hosted on heroku](https://arcane-shore-00638.herokuapp.com/meals)
+
 ## Wire Frames
 
 ![Project2Home](https://user-images.githubusercontent.com/89940133/149842194-62654b0e-5399-4d1f-8cd0-e908e0e0e7c1.png)
